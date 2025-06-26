@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listViewPersonas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".Activity_Opciones">
+
+    <Button
+        android:id="@+id/btnInsertar"
+        android:layout_width="282dp"
+        android:layout_height="61dp"
+        android:text="Insertar"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="96dp" />
+
+    <Button
+        android:id="@+id/btnActualizar"
+        android:layout_width="282dp"
+        android:layout_height="61dp"
+        android:text="Actualizar"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="238dp" />
+
+    <Button
+        android:id="@+id/btnEliminar"
+        android:layout_width="282dp"
+        android:layout_height="61dp"
+        android:text="Eliminar"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="360dp" />
+
+    <Button
+        android:id="@+id/btnSeleccionar"
+        android:layout_width="282dp"
+        android:layout_height="61dp"
+        android:text="Seleccionar"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="486dp" />
+
+</LinearLayout>

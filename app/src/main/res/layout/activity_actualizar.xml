@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listViewPersonas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".Activity_Actualizar">
+
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="278dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:hint="Nombres"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="56dp" />
+
+        <EditText
+            android:id="@+id/apellidos"
+            android:layout_width="278dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:hint="Apellidos"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="126dp" />
+
+        <EditText
+            android:id="@+id/edad"
+            android:layout_width="278dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:hint="Edad"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="203dp" />
+
+
+        <EditText
+            android:id="@+id/correo"
+            android:layout_width="278dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:hint="correo"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="278dp" />
+
+        <EditText
+            android:id="@+id/direccion"
+            android:layout_width="278dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:hint="Direccion"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="347dp" />
+
+        <Button
+            android:id="@+id/btnActualizarP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actualizar" />
+
+        <Button
+            android:id="@+id/btnEliminarP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Eliminar" />
+
+    </LinearLayout>
+
+
