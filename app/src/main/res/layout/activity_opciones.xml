@@ -18,22 +18,6 @@
         tools:layout_editor_absoluteY="96dp" />
 
     <Button
-        android:id="@+id/btnActualizar"
-        android:layout_width="282dp"
-        android:layout_height="61dp"
-        android:text="Actualizar"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="238dp" />
-
-    <Button
-        android:id="@+id/btnEliminar"
-        android:layout_width="282dp"
-        android:layout_height="61dp"
-        android:text="Eliminar"
-        tools:layout_editor_absoluteX="54dp"
-        tools:layout_editor_absoluteY="360dp" />
-
-    <Button
         android:id="@+id/btnSeleccionar"
         android:layout_width="282dp"
         android:layout_height="61dp"

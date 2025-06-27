@@ -1,34 +1,34 @@
 package com.example.applicationsql;
 
+import static com.example.applicationsql.Conexion.PersonasDB.nombre;
+
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.applicationsql.Conexion.Personas;
-import com.example.applicationsql.Conexion.PersonasCRUD;
-import com.example.applicationsql.Conexion.PersonasDB;
 
-import java.util.ArrayList;
+import com.example.applicationsql.Conexion.PersonasDB;
+import com.example.applicationsql.Conexion.sqliteConexion;
+
 import java.util.List;
 
 public class Activity_Actualizar extends AppCompatActivity {
     EditText nombres, apellidos, edad, correo, direccion;
 
     Button btnActualizar, btnEliminar;
-    private PersonasDB personasDB;
-    private int personaId;
-    private List<Personas> personasList;
-    private PersonasCRUD personasCRUD;
+    PersonasDB personasDB;
+    int idPersona;
+    sqliteConexion conexion;
 
 
     @Override
@@ -41,41 +41,63 @@ public class Activity_Actualizar extends AppCompatActivity {
         edad = (EditText) findViewById(R.id.edad);
         correo = (EditText) findViewById(R.id.correo);
         direccion = (EditText) findViewById(R.id.direccion);
-        btnActualizar = (Button) findViewById(R.id.btnActualizarP);
+        btnActualizar = (Button) findViewById(R.id.btnSalvar);
         btnEliminar = (Button) findViewById(R.id.btnEliminarP);
 
-        personasCRUD = new PersonasCRUD(this);
+        conexion = new sqliteConexion(this, PersonasDB.NameDB, null, 1);
+        idPersona = getIntent().getIntExtra("id", -1);
 
-        personaId = getIntent().getIntExtra("persona_id", -1);
-        if (personaId != -1) {
-            Personas persona = personasCRUD.obtenerPersonaPorId(personaId);
-            if (persona != null) {
-                nombres.setText(persona.getNombres());
-                apellidos.setText(persona.getApellidos());
-                edad.setText(String.valueOf(persona.getEdad()));
-                correo.setText(persona.getCorreo());
-                direccion.setText(persona.getDireccion());
-            }
+        if (idPersona != -1) {
+            cargarDatosPersona(idPersona);
         }
 
-        btnActualizar.setOnClickListener(v -> {
-            String nombre = nombres.getText().toString();
-            String apellidosP = apellidos.getText().toString();
-            int edadP = Integer.parseInt(edad.getText().toString());
-            String correoP = correo.getText().toString();
-            String direccionP = direccion.getText().toString();
-            Personas persona = new Personas(personaId, nombre, apellidosP, edadP, correoP, direccionP);
-            personasCRUD.actualizarPersona(persona);
-            Toast.makeText(this, "Persona actualizada", Toast.LENGTH_SHORT).show();
-            finish();
+//        idPersona = getIntent().getIntExtra("persona", -1);
+//        conexion = new sqliteConexion(this, PersonasDB.NameDB, null, 1);
+//        idPersona = getIntent().getIntExtra("id", -1);
+//        nombres.setText(getIntent().getStringExtra("nombres"));
+//        apellidos.setText(getIntent().getStringExtra("apellidos"));
+//        edad.setText(String.valueOf(getIntent().getIntExtra("edad", 0)));
+//        correo.setText(getIntent().getStringExtra("correo"));
+//        direccion.setText(getIntent().getStringExtra("direccion"));
+
+        btnActualizar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                    SQLiteDatabase db = conexion.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(nombre, nombres.getText().toString());
+                    values.put(PersonasDB.apellidos, apellidos.getText().toString());
+                    values.put(PersonasDB.edad, Integer.parseInt(edad.getText().toString()));
+                    values.put(PersonasDB.correo, correo.getText().toString());
+                    values.put(PersonasDB.direccion, direccion.getText().toString());
+                    db.update(PersonasDB.tablaPersonas, values, "id = ?", new String[]{String.valueOf(idPersona)});
+                    Toast.makeText(Activity_Actualizar.this, "Persona actualizada", Toast.LENGTH_SHORT).show();
+                    finish();
+            }
         });
 
-        btnEliminar.setOnClickListener(v -> {
-            Personas persona = new Personas(personaId, "", "", 0, "", "");
-            personasCRUD.eliminarPersonas(persona);
-            Toast.makeText(this, "Persona eliminada", Toast.LENGTH_SHORT).show();
-            finish();
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase db = conexion.getWritableDatabase();
+                db.delete(PersonasDB.tablaPersonas, "id = ?", new String[]{String.valueOf(idPersona)});
+                Toast.makeText(Activity_Actualizar.this, "Persona eliminada", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         });
+        }
 
+        private void cargarDatosPersona(int id) {
+            SQLiteDatabase db = conexion.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM " + PersonasDB.tablaPersonas + " WHERE id = " + id, null);
+            if (cursor.moveToFirst()) {
+                nombres.setText(cursor.getString(1));
+                apellidos.setText(cursor.getString(2));
+                edad.setText(String.valueOf(cursor.getInt(3)));
+                correo.setText(cursor.getString(4));
+                direccion.setText(cursor.getString(5));
+            }
+            cursor.close();
     }
 }

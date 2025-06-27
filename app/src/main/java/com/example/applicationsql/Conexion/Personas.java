@@ -9,7 +9,7 @@ public class Personas {
     int edad;
     String correo;
     String direccion;
-    public Personas(int id, String correo, String direccion, int edad, String apellidos, String nombres) {
+    public Personas(Integer id, String correo, String direccion, Integer edad, String apellidos, String nombres) {
         this.id = id;
         this.apellidos = apellidos;
         this.correo = correo;
@@ -17,6 +17,11 @@ public class Personas {
         this.edad = edad;
         this.nombres = nombres;
     }
+
+    public Personas() {
+
+    }
+
     public String getApellidos() {
         return apellidos;
     }
@@ -29,11 +34,11 @@ public class Personas {
         return direccion;
     }
 
-    public int getEdad() {
+    public Integer getEdad() {
         return edad;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -45,11 +50,11 @@ public class Personas {
         this.nombres = nombres;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setEdad(int edad) {
+    public void setEdad(Integer edad) {
         this.edad = edad;
     }
 

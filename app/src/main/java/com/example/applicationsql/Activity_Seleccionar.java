@@ -1,7 +1,11 @@
 package com.example.applicationsql;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -9,39 +13,70 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.applicationsql.Conexion.Personas;
-import com.example.applicationsql.Conexion.PersonasCRUD;
+import com.example.applicationsql.Conexion.PersonasDB;
+import com.example.applicationsql.Conexion.sqliteConexion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_Seleccionar extends AppCompatActivity {
 
+    sqliteConexion conexion;
+    ListView listaPersonas;
+    ArrayList<Personas> lista;
+    ArrayList<String> arregloLista;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        PersonasCRUD personasCRUD;
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_seleccionar);
+        conexion = new sqliteConexion(this, PersonasDB.NameDB, null, 1);
+        listaPersonas = findViewById(R.id.listViewPersonas);
 
-        ListView listView = findViewById(R.id.listView);
-        personasCRUD = new PersonasCRUD(this);
+        ObtenerInfo();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                arregloLista);
+        listaPersonas.setAdapter(adapter);
 
-        List<Personas> personasList = personasCRUD.obtenerPersonas();
-        ArrayList<String> personasString = new ArrayList<>();
+        listaPersonas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Personas persona = lista.get(position);
+                Intent intent = new Intent(Activity_Seleccionar.this, Activity_Actualizar.class);
+                intent.putExtra("persona", persona.getId());
+                startActivity(intent);
+            }
 
-        for (Personas p : personasList) {
-            personasString.add(p.getId() + ": " + p.getNombres() + " " + p.getApellidos());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, personasString);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            int personaId = personasList.get(position).getId();
-            Intent intent = new Intent(this, Activity_Actualizar.class);
-            intent.putExtra("persona_id", personaId);
-            startActivity(intent);
         });
     }
+    private void ObtenerInfo() {
+        SQLiteDatabase db = conexion.getReadableDatabase();
+        Personas persona = null;
+        lista = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(PersonasDB.SelectPersonas, null);
+        while (cursor.moveToNext()) {
+            persona = new Personas();
+            persona.setId(cursor.getInt(0));
+            persona.setNombres(cursor.getString(1));
+            persona.setApellidos(cursor.getString(2));
+            persona.setEdad(cursor.getInt(3));
+            persona.setCorreo(cursor.getString(4));
+            persona.setDireccion(cursor.getString(5));
+            lista.add(persona);
+        }
+        cursor.close();
+        FillData();
+    }
+
+    private void FillData() {
+        arregloLista = new ArrayList<>();
+        for (Personas p : lista) {
+            arregloLista.add(p.getId() + " | " + p.getNombres() + " " + p.getApellidos() + " " + p.getEdad() + " "+ p.getCorreo() + " " + p.getDireccion());
+        }
+    }
+
+
 }

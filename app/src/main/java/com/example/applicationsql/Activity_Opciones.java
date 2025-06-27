@@ -2,6 +2,7 @@ package com.example.applicationsql;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -20,14 +21,21 @@ public class Activity_Opciones extends AppCompatActivity {
         Button btnInsertar, btnActualizar, btnEliminar, btnSeleccionar;
 
         btnInsertar = (Button) findViewById(R.id.btnInsertar);
-        btnActualizar= (Button) findViewById(R.id.btnActualizar);
-        btnEliminar = (Button) findViewById(R.id.btnEliminar);
         btnSeleccionar = (Button) findViewById(R.id.btnSeleccionar);
 
+        btnInsertar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_Opciones.this, MainActivity.class));
+            }
+        });
 
-        btnInsertar.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
-        btnActualizar.setOnClickListener(v -> startActivity(new Intent(this, Activity_Actualizar.class)));
-        btnEliminar.setOnClickListener(v -> startActivity(new Intent(this, Activity_Actualizar.class)));
-        btnSeleccionar.setOnClickListener(v -> startActivity(new Intent(this, Activity_Seleccionar.class)));
+        btnSeleccionar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_Opciones.this, Activity_Seleccionar.class));
+            }
+        });
+
     }
 }
