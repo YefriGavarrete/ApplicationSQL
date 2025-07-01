@@ -46,20 +46,9 @@ public class Activity_Actualizar extends AppCompatActivity {
 
         conexion = new sqliteConexion(this, PersonasDB.NameDB, null, 1);
         idPersona = getIntent().getIntExtra("id", -1);
-
         if (idPersona != -1) {
             cargarDatosPersona(idPersona);
         }
-
-//        idPersona = getIntent().getIntExtra("persona", -1);
-//        conexion = new sqliteConexion(this, PersonasDB.NameDB, null, 1);
-//        idPersona = getIntent().getIntExtra("id", -1);
-//        nombres.setText(getIntent().getStringExtra("nombres"));
-//        apellidos.setText(getIntent().getStringExtra("apellidos"));
-//        edad.setText(String.valueOf(getIntent().getIntExtra("edad", 0)));
-//        correo.setText(getIntent().getStringExtra("correo"));
-//        direccion.setText(getIntent().getStringExtra("direccion"));
-
         btnActualizar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -73,6 +62,7 @@ public class Activity_Actualizar extends AppCompatActivity {
                     values.put(PersonasDB.direccion, direccion.getText().toString());
                     db.update(PersonasDB.tablaPersonas, values, "id = ?", new String[]{String.valueOf(idPersona)});
                     Toast.makeText(Activity_Actualizar.this, "Persona actualizada", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
                     finish();
             }
         });
@@ -88,16 +78,18 @@ public class Activity_Actualizar extends AppCompatActivity {
         });
         }
 
-        private void cargarDatosPersona(int id) {
-            SQLiteDatabase db = conexion.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM " + PersonasDB.tablaPersonas + " WHERE id = " + id, null);
-            if (cursor.moveToFirst()) {
-                nombres.setText(cursor.getString(1));
-                apellidos.setText(cursor.getString(2));
-                edad.setText(String.valueOf(cursor.getInt(3)));
-                correo.setText(cursor.getString(4));
-                direccion.setText(cursor.getString(5));
-            }
-            cursor.close();
+
+
+private void cargarDatosPersona(int id) {
+    SQLiteDatabase db = conexion.getReadableDatabase();
+    Cursor cursor = db.rawQuery("SELECT * FROM " + PersonasDB.tablaPersonas + " WHERE id = " + id, null);
+    if (cursor.moveToFirst()) {
+        nombres.setText(cursor.getString(1));
+        apellidos.setText(cursor.getString(2));
+        edad.setText(String.valueOf(cursor.getInt(3)));
+        correo.setText(cursor.getString(4));
+        direccion.setText(cursor.getString(5));
     }
+    cursor.close();
+}
 }

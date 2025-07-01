@@ -13,8 +13,11 @@
     <ListView
         android:id="@+id/listViewPersonas"
         android:layout_width="match_parent"
-        android:layout_height="488dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+
+        android:padding="10dp" />
 
     <Button
         android:id="@+id/btnActualizar"

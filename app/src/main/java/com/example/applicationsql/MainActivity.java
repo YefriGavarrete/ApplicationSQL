@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             db.close();
             ClearFields();
+            finish();
         }
         private void ClearFields () {
             nombres.setText("");
